@@ -3,7 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetaParser", "MetaParser\MetaParser.csproj", "{A2EB6FD5-2224-43EF-B30A-D42603533E80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaParser.InternalTests", "MetaParser.InternalTests\MetaParser.InternalTests.csproj", "{B15BA5A9-0468-426A-8709-CEEB98E0344D}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A2EB6FD5-2224-43EF-B30A-D42603533E80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2EB6FD5-2224-43EF-B30A-D42603533E80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2EB6FD5-2224-43EF-B30A-D42603533E80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2EB6FD5-2224-43EF-B30A-D42603533E80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B15BA5A9-0468-426A-8709-CEEB98E0344D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B15BA5A9-0468-426A-8709-CEEB98E0344D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B15BA5A9-0468-426A-8709-CEEB98E0344D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B15BA5A9-0468-426A-8709-CEEB98E0344D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
