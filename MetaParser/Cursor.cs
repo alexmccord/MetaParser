@@ -1,4 +1,4 @@
-﻿namespace MetaParser.Combinatorics;
+﻿namespace MetaParser;
 
 internal record CursorState(int Line, int Column, int Offset);
 

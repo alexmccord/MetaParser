@@ -1,10 +1,10 @@
-﻿namespace MetaParser.Combinatorics;
+﻿namespace MetaParser;
 
-internal delegate ParseResult<T> ParserFn<T>(Cursor cursor);
+internal delegate ParseResult<T> Parser<T>(Cursor cursor);
 
-internal static class Parser
+internal static class CharParser
 {
-    public static ParserFn<char> AnyChar { get; }
+    public static Parser<char> AnyChar { get; }
         = cursor =>
         {
             if (cursor.IsEof)

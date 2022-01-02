@@ -20,7 +20,7 @@ public class CombinatoricTests
     [Fact]
     public void ParseOneChar()
     {
-        var parser = Parser.AnyChar;
+        var parser = CharParser.AnyChar;
 
         Assert.Equal('5', parser.ParseUnwrap("5"));
     }
@@ -31,13 +31,13 @@ public class CombinatoricTests
     [InlineData("63245654tgfeaedfsw45w4eds")]
     public void ParseManyChars(string s)
     {
-        Assert.Equal(s, Parser.AnyChar.Many().ParseUnwrap(s));
+        Assert.Equal(s, CharParser.AnyChar.Many().ParseUnwrap(s));
     }
 
     [Fact]
     public void MapCharToLetter()
     {
-        var parser = Parser.AnyChar
+        var parser = CharParser.AnyChar
             .Transform(LetterUtils.TransformIntoLetter);
 
         Assert.Equal(Letter.A, parser.ParseUnwrap("A"));
@@ -47,7 +47,7 @@ public class CombinatoricTests
     [Fact]
     public void MapManyCharsToLetters()
     {
-        var parser = Parser.AnyChar
+        var parser = CharParser.AnyChar
             .Transform(LetterUtils.TransformIntoLetter)
             .Many();
 
@@ -58,7 +58,7 @@ public class CombinatoricTests
     [Fact]
     public void MapCharToLetterOrFail()
     {
-        var parser = Parser.AnyChar
+        var parser = CharParser.AnyChar
             .Satisfy(c => c == 'A')
             .Transform(LetterUtils.TransformIntoLetter);
 
@@ -74,7 +74,7 @@ public class CombinatoricTests
     [Fact]
     public void MapCharToLetterOrFail2()
     {
-        var parser = Parser.AnyChar
+        var parser = CharParser.AnyChar
             .Transform(LetterUtils.TransformIntoLetter)
             .Satisfy(c => c == 'A');
 
@@ -90,7 +90,7 @@ public class CombinatoricTests
     [Fact]
     public void MapManyCharsToLetters2()
     {
-        var parser = Parser.AnyChar
+        var parser = CharParser.AnyChar
             .Transform(LetterUtils.TransformIntoLetter)
             .Many();
 
@@ -101,9 +101,9 @@ public class CombinatoricTests
     [Fact]
     public void BetweenBraces()
     {
-        var open = Parser.AnyChar.Satisfy(c => c == '{');
-        var middle = Parser.AnyChar.Satisfy(c => c != '}').Many();
-        var close = Parser.AnyChar.Satisfy(c => c == '}');
+        var open = CharParser.AnyChar.Satisfy(c => c == '{');
+        var middle = CharParser.AnyChar.Satisfy(c => c != '}').Many();
+        var close = CharParser.AnyChar.Satisfy(c => c == '}');
 
         Assert.Equal("test", middle.Between(open, close).ParseUnwrap("{test}"));
     }

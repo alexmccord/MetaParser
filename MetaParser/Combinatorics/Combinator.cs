@@ -1,13 +1,11 @@
-﻿using System.Text;
-
-namespace MetaParser.Combinatorics;
+﻿namespace MetaParser.Combinatorics;
 
 internal static class Combinator
 {
-    internal static ParseResult<T> Parse<T>(this ParserFn<T> p, string input) => p(new Cursor(input));
-    internal static T ParseUnwrap<T>(this ParserFn<T> p, string input) => p.Parse(input).Unwrap();
+    internal static ParseResult<T> Parse<T>(this Parser<T> p, string input) => p(new Cursor(input));
+    internal static T ParseUnwrap<T>(this Parser<T> p, string input) => p.Parse(input).Unwrap();
 
-    public static ParserFn<B> Bind<A, B>(this ParserFn<A> p1, Func<A, ParserFn<B>> map)
+    public static Parser<B> Bind<A, B>(this Parser<A> p1, Func<A, Parser<B>> map)
         => cursor =>
         {
             var r1 = p1(cursor);
@@ -15,15 +13,13 @@ internal static class Combinator
                 return Result.Failure<B>();
 
             var p2 = map(r1.Unwrap());
-            var oldState = cursor.State;
-            var r2 = p2(cursor);
-            return r2;
+            return p2(cursor);
         };
 
-    public static ParserFn<B> Transform<A, B>(this ParserFn<A> p, Func<A, B> transform)
+    public static Parser<B> Transform<A, B>(this Parser<A> p, Func<A, B> transform)
         => cursor => p(cursor).AndThenUnwrap(a => Result.Success(cursor.State, transform(a))).OrElse(() => Result.Failure<B>());
 
-    private static IEnumerable<T> ManyImpl<T>(this ParserFn<T> p, Cursor cursor)
+    private static IEnumerable<T> ManyImpl<T>(this Parser<T> p, Cursor cursor)
     {
         List<T> acc = new();
 
@@ -34,7 +30,7 @@ internal static class Combinator
         return acc;
     }
 
-    public static ParserFn<IEnumerable<T>> Many<T>(this ParserFn<T> p)
+    public static Parser<IEnumerable<T>> Many<T>(this Parser<T> p)
         => cursor =>
         {
             // Because ManyImpl is side-effecting, we need to perform ManyImpl first before we get the new State.
@@ -42,7 +38,7 @@ internal static class Combinator
             return Result.Success(cursor.State, result);
         };
 
-    public static ParserFn<string> Many(this ParserFn<char> p)
+    public static Parser<string> Many(this Parser<char> p)
         => cursor =>
         {
             // Again, ManyImpl should be performed first before accessing the new State because it is side-effecting.
@@ -50,9 +46,9 @@ internal static class Combinator
             return Result.Success(cursor.State, string.Concat(result));
         };
 
-    public static ParserFn<C> Between<A, B, C>(this ParserFn<C> middle, ParserFn<A> open, ParserFn<B> close)
+    public static Parser<C> Between<A, B, C>(this Parser<C> middle, Parser<A> open, Parser<B> close)
         => cursor => open(cursor).AndThen(_ => middle(cursor).AndThenUnwrap(c => close(cursor).AndThen(_ => Result.Success(cursor.State, c))));
 
-    public static ParserFn<T> Satisfy<T>(this ParserFn<T> parser, Predicate<char> pred)
+    public static Parser<T> Satisfy<T>(this Parser<T> parser, Predicate<char> pred)
         => cursor => pred(cursor.Current) ? parser(cursor) : Result.Failure<T>();
 }

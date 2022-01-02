@@ -1,4 +1,4 @@
-﻿namespace MetaParser.Combinatorics;
+﻿namespace MetaParser;
 
 internal enum ParseStatus
 {
